@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <script src="//unpkg.com/angular@1.5/angular.js"></script>
+    <script src="//unpkg.com/angular-ui-router@1.0.0-beta.3/release/angular-ui-router.js"></script>
+    
+    <!--  Hello Galaxy Code -->
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="service/peopleService.js"></script>
+    <script type="text/javascript" src="components/hello.js"></script>
+    <script type="text/javascript" src="components/about.js"></script>
+    <script type="text/javascript" src="components/people.js"></script>
+    <script type="text/javascript" src="components/person.js"></script>
+
+  </head>
+  	
+  <body ng-app="demoApp">
+  
+    <div class="nav">
+      <a ui-sref="hello" ui-sref-active="active">Hello</a>
+      <a ui-sref="about" ui-sref-active="active">About</a>
+      <a ui-sref="people" ui-sref-active="active">People</a>
+    </div>
+    
+    <ui-view></ui-view>
+  </body> 
+</html>
