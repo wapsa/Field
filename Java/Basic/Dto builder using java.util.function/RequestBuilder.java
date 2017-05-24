@@ -4,6 +4,10 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+/**
+*RequestBuilder.start(Pojo::new).with(Pojo::setEmailAddress, "svp911@gmail.com")
+*							.with(Pojo::setFullName, "Saurabh Pawar").build()
+*/
 public class RequestBuilder<T> {
 
 	private final Supplier<T> instantiator;
