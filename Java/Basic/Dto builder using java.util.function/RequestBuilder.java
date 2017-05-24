@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 
 /**
 *RequestBuilder.start(Pojo::new).with(Pojo::setEmailAddress, "svp911@gmail.com")
-*							.with(Pojo::setFullName, "Saurabh Pawar").build()
+*							.with(Pojo::setFullName, "Saurabh Pawar").build();
 */
 public class RequestBuilder<T> {
 
