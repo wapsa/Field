@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.maven.project.hib.model">
+	<class name="ActivationLink" table="activation_link" catalog="grey"
+		optimistic-lock="version" dynamic-update="true">
+		<id name="userId" type="long">
+			<column name="USER_ID" />
+			<generator class="foreign">
+				<param name="property">user</param>
+			</generator>
+		</id>
+
+
+		<one-to-one name="user" class="User" constrained="true"></one-to-one>
+
+		<property name="email" type="string">
+			<column name="EMAIL" length="50" not-null="true" />
+		</property>
+
+		<property name="activationCode" type="string">
+			<column name="ACTIVATION_CODE" length="10" not-null="true" />
+		</property>
+
+		<property name="activationCodeSentTime" type="timestamp">
+			<column name="ACTIVATION_CODE_SENT_TIME" length="19" not-null="true" />
+		</property>
+
+		<property name="activationCodeExpirationTime" type="timestamp">
+			<column name="ACTIVATION_CODE_EXPIRATION_TIME" length="19"
+				not-null="true" />
+		</property>
+
+	</class>
+</hibernate-mapping>

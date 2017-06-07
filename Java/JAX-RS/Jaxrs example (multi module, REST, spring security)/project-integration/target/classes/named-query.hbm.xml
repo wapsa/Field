@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+
+	<query name="HQL_GET_USER_BY_USERNAME">
+<![CDATA[SELECT NEW com.maven.project.hib.model.User(u.username, u.authProvider, u.activatedFlag, u.bannedFlag, u.password, u.role, u.userId, u.emailAddress, u.mobileNumber, u.displayName) FROM User u WHERE u.username = :suppliedUserName]]>
+	</query>
+
+
+	<query name="HQL_GET_USERNAME_IF_EXISTS">
+<![CDATA[SELECT u.username, u.activatedFlag, u.bannedFlag FROM User u WHERE u.username = :suppliedUserName]]>
+	</query>
+
+	<query name="HQL_GET_USER_ID_ACTIVATION_CODE_IF_EXISTS">
+	<![CDATA[SELECT al.activationCodeSentTime, al.activationCodeExpirationTime FROM ActivationLink al WHERE al.userId = :suppliedUserId AND al.activationCode = :suppliedActivationCode]]>
+	</query>
+	
+	<query name="HQL_DELETE_ACTIVATION_ENTITY">
+	<![CDATA[DELETE FROM ActivationLink al WHERE al.userId = :suppliedUserId]]>
+	</query>
+
+</hibernate-mapping>
+ 

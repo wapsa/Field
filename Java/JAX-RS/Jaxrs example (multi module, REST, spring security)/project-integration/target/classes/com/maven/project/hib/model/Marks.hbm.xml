@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.maven.project.hib.model.Marks" table="marks"
+		catalog="grey" optimistic-lock="version">
+		<id name="userId" type="long">
+			<column name="USER_ID" />
+			<generator class="assigned" />
+		</id>
+		<property name="mathsScore" type="java.lang.Double">
+			<column name="MATHS_SCORE" precision="22" scale="0" />
+		</property>
+		<property name="scienceScore" type="java.lang.Double">
+			<column name="SCIENCE_SCORE" precision="22" scale="0" />
+		</property>
+		<property name="literatureScore" type="java.lang.Double">
+			<column name="LITERATURE_SCORE" precision="22" scale="0" />
+		</property>
+		<property name="percentage" type="java.lang.Double">
+			<column name="PERCENTAGE" precision="22" scale="0" />
+		</property>
+	</class>
+</hibernate-mapping>

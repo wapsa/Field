@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+	<!-- Static resources such as CSS and JS files are ignored by Spring Security -->
+	<security:http pattern="/static/**" security="none" />
+
+	<!-- Since the special char like ? is not allowed with ant request-matcher 
+		which is default, so we need to use " regex" request-matcher of http namespace. 
+		This url pattern need to be commented in production -->
+	<security:http request-matcher="regex" pattern="/services/\?\_wadl"
+		security="none" />
+
+	<security:http auto-config="false" use-expressions="true"
+		entry-point-ref="restAuthenticationEntryPoint">
+
+		<security:csrf disabled="true" />
+
+		<security:intercept-url
+			pattern="/services/restcommand/user/general/register/**" access="permitAll" />
+			
+		<security:intercept-url
+			pattern="/services/restquery/public/**" access="permitAll" />
+		
+		<!-- any authenticated user can see the static resources -->
+		<security:intercept-url pattern="/secstatic/**"
+			access="isAuthenticated()" />
+
+
+		<!-- all other urls are accessible by admin only -->
+		<security:intercept-url pattern="/**"
+			access="hasRole('ROLE_ADMIN_USER')" />
+
+		<security:custom-filter position="FORM_LOGIN_FILTER"
+			ref="jsonUsernamePasswordAuthenticationFilter" />
+
+		<security:custom-filter position="CONCURRENT_SESSION_FILTER"
+			ref="concurrencyFilter" />
+
+		<security:custom-filter position="LOGOUT_FILTER"
+			ref="restLogoutFilter" />
+
+		<security:session-management
+			session-authentication-strategy-ref="sas" />
+
+	</security:http>
+
+	<bean name="restAuthenticationEntryPoint"
+		class="com.maven.project.auth.custom.RestAuthenticationEntryPoint" />
+
+
+	<bean id="restLogoutFilter"
+		class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<constructor-arg>
+			<bean class="com.maven.project.auth.custom.RestLogoutSuccessHandler" />
+		</constructor-arg>
+		<constructor-arg>
+			<list>
+				<bean
+					class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"
+					p:clearAuthentication="true" p:invalidateHttpSession="true" />
+			</list>
+		</constructor-arg>
+		<property name="logoutRequestMatcher">
+			<bean
+				class="org.springframework.security.web.util.matcher.AntPathRequestMatcher"
+				c:_0="/logout" />
+		</property>
+	</bean>
+
+
+	<bean name="jsonUsernamePasswordAuthenticationFilter"
+		class="com.maven.project.auth.custom.JsonUsernamePasswordAuthenticationFilter"
+		p:requiresAuthenticationRequestMatcher-ref="filterProcessesUrl"
+		p:authenticationSuccessHandler-ref="jsonAuthenticationSuccessHandler"
+		p:authenticationFailureHandler-ref="jsonAuthenticationFailureHandler"
+		p:authenticationManager-ref="mavenAuthenticationManager"
+		p:sessionAuthenticationStrategy-ref="sas" />
+
+	<!-- overriding default login-processing-url "/j_spring_security_check" -->
+	<bean name="filterProcessesUrl"
+		class="org.springframework.security.web.util.matcher.AntPathRequestMatcher"
+		c:_0="/login" />
+
+	<bean name="jsonAuthenticationSuccessHandler"
+		class="com.maven.project.auth.custom.JsonAuthenticationSuccessHandler" />
+
+	<bean name="jsonAuthenticationFailureHandler"
+		class="com.maven.project.auth.custom.JsonAuthenticationFailureHandler" />
+
+	<security:authentication-manager alias="mavenAuthenticationManager">
+		<security:authentication-provider
+			ref="authenticationProvider" />
+	</security:authentication-manager>
+
+	<bean name="authenticationProvider"
+		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider"
+		p:userDetailsService-ref="userService" p:hideUserNotFoundExceptions="false" />
+	<bean name="userService"
+		class="com.maven.project.core.security.service.SecurityUserDetailsService" />
+
+	<!-- Session Management related beans -->
+	<bean id="concurrencyFilter"
+		class="org.springframework.security.web.session.ConcurrentSessionFilter"
+		c:_0-ref="sessionRegistry" />
+
+	<bean id="sas"
+		class="org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy">
+		<constructor-arg>
+			<list>
+				<bean
+					class="org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy"
+					c:_0-ref="sessionRegistry" p:maximumSessions="1"
+					p:exceptionIfMaximumExceeded="false" />
+
+				<!-- Uses HttpServletRequest.changeSessionId() to protect against session 
+					fixation attacks. This is the default implementation for Servlet 3.1+. -->
+				<!-- <bean class="org.springframework.security.web.authentication.session.ChangeSessionIdAuthenticationStrategy" 
+					/> -->
+
+				<bean
+					class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy" />
+				<bean
+					class="org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy"
+					c:_0-ref="sessionRegistry" />
+			</list>
+		</constructor-arg>
+	</bean>
+	<bean id="sessionRegistry"
+		class="org.springframework.security.core.session.SessionRegistryImpl" />
+
+</beans>

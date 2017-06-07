@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<jaxrs:server address="/" docLocation="wadl/jaxrs-command.wadl">
+
+		<jaxrs:inInterceptors>
+			<ref bean="validationInInterceptor" />
+		</jaxrs:inInterceptors>
+
+		<jaxrs:outInterceptors>
+			<ref bean="validationOutInterceptor" />
+		</jaxrs:outInterceptors>
+
+		<jaxrs:serviceBeans>
+
+			<bean name="jaxrsCommandImpl"
+				class="com.maven.project.jaxrs.command.resource.impl.JaxrsCommandImpl" />
+			
+			<bean name="jaxrsQueryImpl"
+				class="com.maven.project.jaxrs.query.resource.impl.JaxrsQueryImpl" />
+
+		</jaxrs:serviceBeans>
+
+		<jaxrs:providers>
+			<ref bean="jsonProvider" />
+			<ref bean="userRegistrationExceptionMapper" />
+			<ref bean="userExceptionMapper" />
+			<ref bean="userActivationExceptionMapper" />
+		</jaxrs:providers>
+ 
+		<jaxrs:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+		</jaxrs:features>
+
+	</jaxrs:server>
+
+
+	<bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
+
+	<!-- ExceptionMappers -->
+	<bean id="validationExceptionMapper"
+		class="org.apache.cxf.jaxrs.validation.ValidationExceptionMapper" />
+
+	<bean id="userRegistrationExceptionMapper"
+		class="com.maven.project.exception.mapper.UserRegistrationExceptionMapper" />
+	<bean id="userExceptionMapper"
+		class="com.maven.project.exception.mapper.UserExceptionMapper" />
+	<bean id="userActivationExceptionMapper"
+		class="com.maven.project.exception.mapper.UserActivationExceptionMapper" />
+			
+	<!-- validation interceptor related configration -->
+
+	<bean id="validationInInterceptor"
+		class="org.apache.cxf.jaxrs.validation.JAXRSBeanValidationInInterceptor">
+		<property name="provider" ref="validationProvider" />
+	</bean>
+	<bean id="validationOutInterceptor"
+		class="org.apache.cxf.jaxrs.validation.JAXRSBeanValidationOutInterceptor">
+		<property name="provider" ref="validationProvider" />
+	</bean>
+	<bean id="validationProvider" class="org.apache.cxf.validation.BeanValidationProvider" />
+
+	<!-- application specific bean configrations -->
+
+</beans>

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping package="com.maven.project.hib.model">
+	<class name="User" table="user" catalog="grey" optimistic-lock="version"
+		dynamic-insert="true" dynamic-update="true">
+
+		<id name="userId" type="java.lang.Long">
+			<column name="USER_ID" />
+			<generator class="identity" />
+		</id>
+
+		<property name="authProvider" type="string">
+			<column name="AUTH_PROVIDER_ID" length="30" not-null="true" />
+		</property>
+
+		<property name="role" type="string">
+			<column name="ROLE_ID" length="30" not-null="true" />
+		</property>
+
+		<many-to-one name="banningAdmin" class="User" fetch="select">
+			<column name="BANNING_ADMIN" />
+		</many-to-one>
+
+		<property name="displayName" type="string">
+			<column name="DISPLAY_NAME" length="100" not-null="true" />
+		</property>
+		<property name="username" type="string">
+			<column name="USERNAME" length="50" not-null="true" unique="true" />
+		</property>
+
+		<property name="emailAddress" type="string">
+			<column name="EMAIL_ADDRESS" length="50" not-null="true"
+				unique="true" />
+		</property>
+
+		<property name="mobileNumber" type="string">
+			<column name="MOBILE_NUMBER" length="50" not-null="true"
+				unique="true" />
+		</property>
+
+		<property name="password" type="string">
+			<column name="PASSWORD" length="50" not-null="true" />
+		</property>
+
+		<property name="activatedFlag" type="boolean">
+			<column name="ACTIVATED_FLAG" not-null="true" />
+		</property>
+
+		<property name="activationTime" type="timestamp">
+			<column name="ACTIVATION_TIME" length="19" />
+		</property>
+
+		<property name="bannedFlag" type="boolean">
+			<column name="BANNED_FLAG" not-null="true" />
+		</property>
+
+		<one-to-one name="activationLink" class="ActivationLink"
+			cascade="save-update" />
+
+	</class>
+</hibernate-mapping>

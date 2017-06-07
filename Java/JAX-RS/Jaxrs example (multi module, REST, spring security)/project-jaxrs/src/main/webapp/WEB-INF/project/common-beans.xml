@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:c="http://www.springframework.org/schema/c" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	 <context:property-placeholder location="classpath:configActiveMQ_PP.properties" />
+
+	<import resource="classpath:security-config.xml" />
+	<import resource="classpath:hibernate-config.xml" />
+	<import resource="classpath:activemq-broker-producer-consumer.xml" />
+	<!-- <import resource="classpath:mail-config.xml" /> -->
+	<!-- <import resource="classpath:push-config.xml" /> -->
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>configMessages</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Freemarker & templates -->
+	<!-- Factory bean that creates a FreeMarker Configuration and provides it 
+		as bean reference. This bean is intended for any kind of usage of FreeMarker 
+		in application code, e.g. for generating email content. -->
+	<!-- FreeMarker Configuration is the Main entry point into the FreeMarker 
+		API, this class encapsulates the various configuration parameters with which 
+		FreeMarker is run -->
+	<!-- Turn preferFileSystemAccess off to always load via SpringTemplateLoader -->
+	<bean id="freemarkerConfiguration"
+		class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean"
+		p:preferFileSystemAccess="false" p:templateLoaderPath="classpath:/" />
+
+	<!-- this is to start the org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler 
+		using task namesapce provided in spring 3 we can also use the task namespace 
+		for taskExecutor -->
+	<task:annotation-driven scheduler="taskScheduler" />
+	<task:scheduler id="taskScheduler" pool-size="10" />
+
+	<!-- cache related -->
+	<!-- <cache:annotation-driven /> -->
+	<!-- <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" 
+		p:cache-manager-ref="ehcache" /> -->
+	<!-- EhCache library setup -->
+	<!-- <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" 
+		p:configLocation="classpath:ehcache.xml" /> -->
+	<context:component-scan
+		base-package="com.maven.project.base.security,com.maven.project.core.service" />
+</beans>

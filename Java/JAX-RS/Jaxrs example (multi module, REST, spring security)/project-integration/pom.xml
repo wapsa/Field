@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.maven</groupId>
+    <artifactId>project</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>project-integration</artifactId>
+  
+  <dependencies>
+
+		<!--project-module-dependencies -->
+		<dependency>
+			<groupId>com.maven</groupId>
+			<artifactId>project-base</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.maven</groupId>
+			<artifactId>project-core-dto</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+
+		<!--tomcat jdbc connection pool -->
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-jdbc</artifactId>
+			<version>${tomcat.dbcp.version}</version>
+			<!-- while development when we are not using the jndi configuration it 
+				should not be "provided" otherwise will throw mysql driver class not found 
+				exception -->
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- mysql dependency -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
+			<!-- while development when we are not using the jndi configuration it 
+				should not be "provided" otherwise will throw mysql driver class not found 
+				exception -->
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- hibernate orm -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.orm.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>${javassist.version}</version>
+		</dependency>
+
+		<!-- Spring dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+	</dependencies>
+  
+  
+  
+</project>

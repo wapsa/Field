@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+ <!-- The contents of this file will be loaded for each web application -->
+  <Context antiJARLocking="true">
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+      <Resource name="jdbc/grey" auth="Container" type="javax.sql.DataSource"
+              factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://127.0.0.1:3306/grey?useUnicode=true&amp;characterEncoding=UTF-8&amp;characterSetResults=UTF-8"
+              username="root"
+              password="root"
+              maxActive="50"
+              maxIdle="50"
+              minIdle="10"
+              maxWait="30000"
+              initialSize="10"
+              testOnBorrow="true"
+              testOnConnect="false"
+              testOnReturn="false"
+              testWhileIdle="false"
+              timeBetweenEvictionRunsMillis="30000"
+              minEvictableIdleTimeMillis="30000"
+              validationQuery="SELECT 1"
+              validationInterval="180000"
+              removeAbandoned="true"
+              removeAbandonedTimeout="120"
+              logAbandoned="true"
+             />
+</Context>

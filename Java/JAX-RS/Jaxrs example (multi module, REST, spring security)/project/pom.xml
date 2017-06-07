@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.maven</groupId>
+  <artifactId>project</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+  	<module>project-integration</module>
+  	<module>project-jaxrs</module>
+  	<module>project-core-dto</module>
+  	<module>project-service</module>
+  	<module>project-base</module>
+  	<module>project-message-producer</module>
+  	<module>project-message-consumer</module>
+  </modules>
+  
+  
+  
+  
+   <properties>
+		<spring.version>4.2.2.RELEASE</spring.version>
+		<aspectj.version>1.8.2</aspectj.version>
+		<spring.security.version>4.0.2.RELEASE</spring.security.version>
+		<cxf.version>3.1.3</cxf.version>
+		<jackson.version>2.6.1</jackson.version>
+		<logback.version>1.1.2</logback.version>
+		<slf4j.version>1.7.12</slf4j.version>
+		<tomcat.dbcp.version>7.0.64</tomcat.dbcp.version>
+		<mysql.version>5.1.20</mysql.version>
+		<hibernate.orm.version>4.3.6.Final</hibernate.orm.version>
+		<hibernate.validator.version>5.1.2.Final</hibernate.validator.version>
+		<javassist.version>3.18.1-GA</javassist.version>
+		
+		<restfb.version>1.14.1</restfb.version>
+		
+		<!-- ehcache version -->
+		<ehcache.version>2.10.0</ehcache.version>
+		
+		<!-- Web -->
+		<servlet.version>3.1.0</servlet.version>
+		<jsp.version>2.3.1</jsp.version>
+		<jstl.version>1.2</jstl.version>
+		
+		<!-- apache commons io -->
+		<common.io.version>2.4</common.io.version>
+        
+        <!-- freemarker version -->
+        <freemarker.version>2.3.20</freemarker.version>
+        
+        <!-- active-mq version -->
+        <activemq.version>5.11.1</activemq.version>
+        <org.apache.xbean.version>3.18</org.apache.xbean.version>
+        
+        <!-- Java mail version -->
+        <javamail.version>1.5.2</javamail.version>
+        
+        <!-- push notification version -->
+        <pushy.version>0.4.3</pushy.version>
+        <java.mpns>0.2.0</java.mpns>
+		
+		<junit.version>4.12</junit.version>
+		
+		<!-- unselfie version -->
+		<unselfie.version>1.0.0 </unselfie.version>
+		
+	</properties>
+  
+  
+  
+  
+</project>
