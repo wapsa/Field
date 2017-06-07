@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- configuration file for LogBack (slf4J implementation) See here for more 
+	details: http://gordondickens.com/wordpress/2013/03/27/sawing-through-the-java-loggers/ -->
+<configuration scan="true" scanPeriod="30 seconds">
+
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level [%logger]-%msg%n%ex
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="restWS"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>c:\\JERSEY\\REST\\haha.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>c:\\JERSEY\\REST\\haha-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- or whenever the file size reaches 100MB -->
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<!-- keep 30 days worth of history -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level [%logger]-%msg%n%ex
+			</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.jersey" level="DEBUG">
+		<appender-ref ref="restWS" />
+	</logger>
+
+	<category name="org.hibernate.loader.custom.sql" additivity="false">
+		<priority value="trace" />
+		<appender-ref ref="fileAppender" />
+	</category>
+
+	<logger name="org.apache.activemq.spring" additivity="false">
+		<level value="WARN" />
+		<appender-ref ref="console" />
+	</logger>
+
+	<logger name="org.springframework.jms" additivity="false">
+		<level value="WARN" />
+		<appender-ref ref="console" />
+		<appender-ref ref="restWS" />
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="console" />
+	</root>
+
+</configuration>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+ <!-- The contents of this file will be loaded for each web application -->
+  <Context antiJARLocking="true">
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+      <Resource name="jdbc/demodb" auth="Container" type="javax.sql.DataSource"
+              factory="com.zaxxer.hikari.HikariJNDIFactory"
+              driverClassName="com.mysql.cj.jdbc.Driver"
+              jdbcUrl="jdbc:mysql://127.0.0.1:3306/demodb?useUnicode=true&amp;characterEncoding=UTF-8&amp;characterSetResults=UTF-8&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"
+              username="root"	
+              password="root"
+              connectionTimeout="70000"
+              idleTimeout="600000"
+              maxLifetime="1800000"
+              minimumIdle="50"
+              maximumPoolSize="50"
+              />
+</Context>

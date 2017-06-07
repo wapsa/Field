@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+      http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource">
+		<property name="driverClassName" value="${db.driver}" />
+		<property name="url" value="${db.jdbcurl}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+		<property name="maxActive" value="${db.maxActive}" />
+		<property name="maxIdle" value="${db.maxIdle}" />
+		<property name="minIdle" value="${db.minIdle}" />
+		<property name="maxWait" value="${db.maxWait}" />
+		<property name="initialSize" value="${db.initialSize}" />
+		<property name="testOnBorrow" value="${db.testOnBorrow}" />
+		<property name="testOnConnect" value="${db.testOnConnect}" />
+		<property name="testOnReturn" value="${db.testOnReturn}" />
+		<property name="testWhileIdle" value="${db.testWhileIdle}" />
+		<property name="timeBetweenEvictionRunsMillis" value="${db.timeBetweenEvictionRunsMillis}" />
+		<property name="minEvictableIdleTimeMillis" value="${db.minEvictableIdleTimeMillis}" />
+		<property name="validationQuery" value="${db.validationQuery}" />
+		<property name="validationInterval" value="${db.validationInterval}" />
+		<property name="removeAbandoned" value="${db.removeAbandoned}" />
+		<property name="removeAbandonedTimeout" value="${db.removeAbandonedTimeout}" />
+		<property name="logAbandoned" value="${db.logAbandoned}" />
+	</bean>
+
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+	</bean>
+
+	<bean name="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="persistenceExceptionTranslationPostProcessor"
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<context:component-scan base-package="com.jersey.dao"/>
+
+</beans>
